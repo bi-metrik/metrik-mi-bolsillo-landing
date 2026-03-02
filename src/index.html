@@ -419,7 +419,7 @@
       <p class="waitlist-desc reveal">Lanzamos en junio 2026. Déjanos tu email y serás el primero en saber.</p>
       <div class="waitlist-counter reveal">
         <span class="counter-dot"></span>
-        <span><span class="counter-num" id="spots">13</span> cupos madrugadores disponibles</span>
+        <span><span class="counter-num" id="spots">100</span> cupos madrugadores disponibles</span>
       </div>
       <form class="waitlist-form reveal" id="waitlistForm" onsubmit="handleSubmit(event,'waitlist')">
         <input type="email" placeholder="tu@email.com" required aria-label="Email para lista de espera">
@@ -508,8 +508,13 @@
     phoneIO.observe(document.querySelector('.phone'));
 
     // ── Counter animation — cupos madrugadores ──
+    // Progresión automática: 0 cupos el 1 mar → 100 cupos el 31 mar (30 días)
     (function(){
-      const TARGET=87;const TOTAL=100;
+      const TOTAL=100;
+      const START=new Date('2026-03-01T00:00:00-05:00');// COT
+      const DAYS=30;
+      const elapsed=Math.max(0,(Date.now()-START.getTime())/(864e5));
+      const TARGET=Math.min(TOTAL,Math.round((elapsed/DAYS)*TOTAL));
       const takenEl=document.getElementById('offerTaken');
       const leftEl=document.getElementById('offerLeft');
       const fillEl=document.getElementById('offerFill');
