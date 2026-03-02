@@ -84,8 +84,16 @@
     .hero-form input{flex:1;font-family:var(--font);font-size:.88rem;font-weight:500;padding:14px 16px;border:2px solid var(--line);border-radius:10px;background:var(--white);outline:none;transition:border-color .2s;color:var(--black)}
     .hero-form input::placeholder{color:var(--gray-light);font-weight:400}
     .hero-form input:focus{border-color:var(--green)}
-    .hero-note{font-size:.78rem;color:var(--gray);max-width:420px}
-    .hero-note strong{color:var(--green-dark);font-weight:700}
+    .hero-offer{max-width:420px;background:var(--green-bg);border:2px solid var(--green);border-radius:12px;padding:16px 20px;margin-bottom:4px}
+    .hero-offer-title{font-size:1.1rem;font-weight:800;color:var(--black);margin-bottom:4px;letter-spacing:-.01em}
+    .hero-offer-title .green{color:var(--green-dark)}
+    .hero-offer-sub{font-size:.88rem;color:var(--gray);line-height:1.5}
+    .hero-offer-counter{margin-top:12px}
+    .hero-offer-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+    .hero-offer-fill{height:100%;background:var(--green);border-radius:3px;width:0;transition:width 2s cubic-bezier(.16,1,.3,1)}
+    .hero-offer-status{display:flex;justify-content:space-between;margin-top:6px;font-size:.78rem;font-weight:600}
+    .hero-offer-taken{color:var(--green-dark)}
+    .hero-offer-remaining{color:#EF4444;font-weight:700}
     .hero-stats{display:flex;gap:32px;margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
     .h-stat-num{font-size:1.8rem;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:2px}
     .h-stat-label{font-size:.72rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--gray)}
@@ -265,7 +273,17 @@
         <div class="form-success-title">¡Estás en la lista!</div>
         <div class="form-success-sub">Te avisaremos antes que a nadie.</div>
       </div>
-      <p class="hero-note"><strong>Primeros 100:</strong> Plan Pro a $19,900/mes de por vida.</p>
+      <div class="hero-offer" id="heroOffer">
+        <div class="hero-offer-title">Primeros 1,000: Plan Pro a <span class="green">$19,900/mes</span> de por vida</div>
+        <div class="hero-offer-sub">Precio garantizado para los madrugadores. Despues sube a $24,900/mes.</div>
+        <div class="hero-offer-counter">
+          <div class="hero-offer-bar"><div class="hero-offer-fill" id="offerFill"></div></div>
+          <div class="hero-offer-status">
+            <span class="hero-offer-taken"><span id="offerTaken">0</span> de 1,000 cupos tomados</span>
+            <span class="hero-offer-remaining">Quedan <span id="offerLeft">1000</span></span>
+          </div>
+        </div>
+      </div>
       <div class="hero-stats">
         <div class="h-stat"><div class="h-stat-num">7.1M</div><div class="h-stat-label">Independientes</div></div>
         <div class="h-stat"><div class="h-stat-num">85%</div><div class="h-stat-label">Sin registro</div></div>
@@ -377,7 +395,7 @@
           <button class="price-cta btn--outline" onclick="goTo('waitlist')">Unirme a la lista</button>
         </div>
       </div>
-      <p class="pricing-footer reveal"><strong>Precio madrugador:</strong> Los primeros 100 pagan $19,900/mes de por vida.</p>
+      <p class="pricing-footer reveal"><strong>Precio madrugador:</strong> Los primeros 1,000 pagan $19,900/mes de por vida.</p>
       <div class="netflix-compare reveal">
         <p>El Plan Pro cuesta lo mismo que</p>
         <div class="big">un Netflix al mes</div>
@@ -394,7 +412,7 @@
       <p class="waitlist-desc reveal">Lanzamos en junio 2026. Déjanos tu email y serás el primero en saber.</p>
       <div class="waitlist-counter reveal">
         <span class="counter-dot"></span>
-        <span><span class="counter-num" id="spots">73</span> cupos madrugadores disponibles</span>
+        <span><span class="counter-num" id="spots">63</span> cupos madrugadores disponibles</span>
       </div>
       <form class="waitlist-form reveal" id="waitlistForm" onsubmit="handleSubmit(event,'waitlist')">
         <input type="email" placeholder="tu@email.com" required aria-label="Email para lista de espera">
@@ -481,6 +499,38 @@
     function nextMsg(){if(mi>=messages.length)return;const m=messages[mi];setTimeout(()=>{const t=chatEl.querySelector('.typing');if(t)t.remove();if(m.type==='typing'){const d=document.createElement('div');d.className='typing';d.innerHTML='<span></span><span></span><span></span>';chatEl.appendChild(d)}else if(m.type==='scene'){const d=document.createElement('div');d.className='scene-break';d.textContent=m.text;d.style.opacity='0';chatEl.appendChild(d);requestAnimationFrame(()=>{d.style.transition='opacity .4s';d.style.opacity='1'})}else{const d=document.createElement('div');d.className=`msg msg-${m.type}`;d.innerHTML=`<div class="msg-bubble">${m.text}</div><div class="msg-time">${m.time}</div>`;d.style.opacity='0';d.style.transform='translateY(8px)';chatEl.appendChild(d);requestAnimationFrame(()=>{d.style.transition='opacity .3s,transform .3s';d.style.opacity='1';d.style.transform='translateY(0)'})}chatEl.scrollTop=chatEl.scrollHeight;mi++;nextMsg()},m.delay)}
     const phoneIO=new IntersectionObserver(e=>{if(e[0].isIntersecting){setTimeout(nextMsg,300);phoneIO.disconnect()}},{threshold:.25});
     phoneIO.observe(document.querySelector('.phone'));
+
+    // ── Counter animation — cupos madrugadores ──
+    (function(){
+      const TARGET=937;const TOTAL=1000;
+      const takenEl=document.getElementById('offerTaken');
+      const leftEl=document.getElementById('offerLeft');
+      const fillEl=document.getElementById('offerFill');
+      const spotsEl=document.getElementById('spots');
+      let animated=false;
+      function easeOut(t){return 1-Math.pow(1-t,3)}
+      function animateCounter(){
+        if(animated)return;animated=true;
+        const duration=2200;const start=performance.now();
+        function tick(now){
+          const elapsed=now-start;
+          const progress=Math.min(elapsed/duration,1);
+          const eased=easeOut(progress);
+          const current=Math.round(eased*TARGET);
+          const remaining=TOTAL-current;
+          takenEl.textContent=current.toLocaleString('es-CO');
+          leftEl.textContent=remaining.toLocaleString('es-CO');
+          fillEl.style.width=(current/TOTAL*100)+'%';
+          spotsEl.textContent=remaining;
+          if(progress<1)requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+      const offerIO=new IntersectionObserver(e=>{
+        if(e[0].isIntersecting){animateCounter();offerIO.disconnect()}
+      },{threshold:.3});
+      offerIO.observe(document.getElementById('heroOffer'));
+    })();
 
     // ── Supabase config (reemplazar con credenciales del proyecto nuevo) ──
     const SUPABASE_URL='__SUPABASE_URL__';
