@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Bolsillo — Tus finanzas en WhatsApp</title>
+  <meta name="description" content="Controla tus ingresos y gastos desde WhatsApp. Sin apps, sin cuentas nuevas. Solo manda un mensaje. Un producto MéTRIK.">
+  <meta property="og:title" content="Mi Bolsillo — Tus finanzas en WhatsApp">
+  <meta property="og:description" content="El asistente financiero que vive donde tú vives: en WhatsApp. Para los 7.1M de independientes colombianos.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://metrikbolsillo.co">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--black:#1A1A1A;--gray:#6B7280;--gray-light:#9CA3AF;--line:#E5E7EB;--green:#10B981;--green-dark:#059669;--green-soft:#D1FAE5;--green-bg:#ECFDF5;--white:#FFFFFF;--bg:#F5F4F2;--font:'Montserrat',-apple-system,sans-serif}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{font-family:var(--font);background:var(--bg);color:var(--black);line-height:1.6;font-size:16px;overflow-x:hidden}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    @keyframes typing{0%{opacity:.3}50%{opacity:1}100%{opacity:.3}}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}
+
+    /* ═══ Mb MARK — isotipo producto ═══
+       Patrón MéTRIK: M (Montserrat Bold) + subíndice identificador + línea verde
+       Mc = Clarity, Mo = ONE, Mb = Bolsillo */
+    .mb-mark{display:inline-flex;flex-direction:column;align-items:flex-start}
+    .mb-mark-text{font-family:var(--font);font-weight:700;color:var(--black);line-height:1;display:inline-flex;align-items:baseline}
+    .mb-mark-sub{font-size:.55em;font-weight:700;color:var(--black);position:relative;bottom:-.1em;margin-left:.02em}
+    .mb-mark-line{height:2px;background:var(--green);border-radius:2px;width:100%;margin-top:4px}
+
+    /* ═══ MéTRIK LOGO — CSS per [70] ═══
+       Montserrat Bold 700 + línea verde 2px, 100% ancho texto
+       é minúscula OBLIGATORIA */
+    .metrik-logo{display:inline-flex;flex-direction:column;align-items:flex-start}
+    .metrik-logo-text{font-family:var(--font);font-weight:700;color:var(--black);line-height:1;letter-spacing:.01em}
+    .metrik-logo-line{height:2px;background:var(--green);border-radius:2px;width:100%;margin-top:6px}
+
+    /* ═══ NAV ═══ */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,244,242,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+    nav.scrolled{border-bottom-color:var(--line);box-shadow:0 1px 12px rgba(0,0,0,.04)}
+    .nav-inner{max-width:1080px;margin:0 auto;padding:12px 24px;display:flex;justify-content:space-between;align-items:center}
+
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-brand .mb-mark-text{font-size:1.15rem}
+    .nav-brand .mb-mark-line{margin-top:3px}
+    .nav-product-name{font-weight:500;font-size:1.15rem;color:var(--black);letter-spacing:-.01em}
+    .nav-right{display:flex;align-items:center;gap:20px}
+    .nav-tag{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);display:none}
+
+    .btn{font-family:var(--font);font-weight:700;font-size:.78rem;letter-spacing:.02em;color:var(--white);background:var(--black);padding:10px 22px;border-radius:8px;border:none;cursor:pointer;transition:background .2s,transform .1s}
+    .btn:hover{background:#333;transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+    .btn--green{background:var(--green)}.btn--green:hover{background:var(--green-dark)}
+    .btn--large{font-size:.85rem;padding:14px 32px;border-radius:10px}
+    .btn--outline{background:transparent;color:var(--black);border:2px solid var(--line)}
+    .btn--outline:hover{border-color:var(--black);background:transparent}
+
+    /* ═══ HERO ═══ */
+    .hero{max-width:1080px;margin:0 auto;padding:130px 24px 80px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;min-height:100vh}
+    .hero-content{animation:fadeUp .7s cubic-bezier(.16,1,.3,1) forwards}
+    .hero-label{font-size:.6rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .hero-label::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2.5s infinite}
+    .hero h1{font-size:3.4rem;font-weight:900;letter-spacing:-.04em;line-height:1.04;color:var(--black);margin-bottom:20px}
+    .hero h1 .green{color:var(--green)}
+    .hero-sub{font-size:1.05rem;font-weight:400;color:var(--gray);line-height:1.7;max-width:440px;margin-bottom:32px}
+    .hero-form{display:flex;gap:8px;margin-bottom:12px;max-width:420px}
+    .hero-form input{flex:1;font-family:var(--font);font-size:.88rem;font-weight:500;padding:14px 16px;border:2px solid var(--line);border-radius:10px;background:var(--white);outline:none;transition:border-color .2s;color:var(--black)}
+    .hero-form input::placeholder{color:var(--gray-light);font-weight:400}
+    .hero-form input:focus{border-color:var(--green)}
+    .hero-note{font-size:.72rem;color:var(--gray);max-width:420px}
+    .hero-note strong{color:var(--green-dark);font-weight:700}
+    .hero-stats{display:flex;gap:32px;margin-top:48px;padding-top:32px;border-top:1px solid var(--line)}
+    .h-stat-num{font-size:1.8rem;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:2px}
+    .h-stat-label{font-size:.62rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--gray)}
+
+    /* Phone */
+    .hero-phone{display:flex;justify-content:center;animation:fadeUp .7s .15s cubic-bezier(.16,1,.3,1) both}
+    .phone{width:300px;border-radius:28px;overflow:hidden;background:#E5DDD5;box-shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08),0 24px 48px rgba(0,0,0,.06);border:6px solid var(--black)}
+    .phone-header{background:#075E54;padding:10px 14px;display:flex;align-items:center;gap:10px}
+    .phone-avatar{width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:var(--white);font-weight:800;font-size:.6rem}
+    .phone-avatar .av-m{font-size:.7rem}.phone-avatar .av-sub{font-size:.4rem;position:relative;bottom:-.1em}
+    .phone-name{color:var(--white);font-size:.78rem;font-weight:600}
+    .phone-status{color:rgba(255,255,255,.6);font-size:.55rem}
+    .phone-chat{padding:12px 10px;min-height:440px;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth}
+    .phone-chat::-webkit-scrollbar{width:0;display:none}.phone-chat{-ms-overflow-style:none;scrollbar-width:none}
+    .scene-break{text-align:center;font-size:.5rem;color:#8696A0;background:rgba(255,255,255,.6);padding:2px 10px;border-radius:6px;align-self:center;margin:8px 0 4px}
+    .msg-voice{display:flex;align-items:center;gap:6px;padding:4px 0}
+    .voice-wave{display:flex;align-items:center;gap:2px;height:18px}
+    .voice-wave span{width:3px;background:#8696A0;border-radius:2px;animation:voiceWave .6s ease-in-out infinite alternate}
+    .voice-wave span:nth-child(1){height:6px;animation-delay:0s}
+    .voice-wave span:nth-child(2){height:12px;animation-delay:.1s}
+    .voice-wave span:nth-child(3){height:8px;animation-delay:.2s}
+    .voice-wave span:nth-child(4){height:14px;animation-delay:.15s}
+    .voice-wave span:nth-child(5){height:10px;animation-delay:.05s}
+    .voice-wave span:nth-child(6){height:6px;animation-delay:.25s}
+    @keyframes voiceWave{to{height:4px}}
+    .chat-date{text-align:center;font-size:.55rem;color:#8696A0;background:rgba(255,255,255,.6);padding:2px 10px;border-radius:6px;align-self:center;margin-bottom:4px}
+    .msg{max-width:84%;animation:slideIn .35s cubic-bezier(.16,1,.3,1) both}
+    .msg-bubble{padding:6px 10px;border-radius:8px;font-size:.72rem;line-height:1.5}
+    .msg-time{font-size:.48rem;color:#999;text-align:right;margin-top:1px}
+    .msg-user{align-self:flex-end}.msg-user .msg-bubble{background:var(--white);border-bottom-right-radius:2px;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+    .msg-bot{align-self:flex-start}.msg-bot .msg-bubble{background:#DCF8C6;border-bottom-left-radius:2px;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+    .msg-badge{display:inline-block;font-size:.55rem;font-weight:700;background:rgba(16,185,129,.12);color:var(--green-dark);padding:1px 6px;border-radius:4px;margin-top:4px}
+    .msg-summary{margin-top:6px;padding-top:5px;border-top:1px solid rgba(0,0,0,.06);font-size:.68rem;line-height:1.55}
+    .typing{align-self:flex-start;padding:8px 14px;background:#DCF8C6;border-radius:8px;display:flex;gap:4px}
+    .typing span{width:6px;height:6px;background:#8696A0;border-radius:50%;animation:typing 1.2s infinite}
+    .typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+
+    /* ═══ SECTIONS ═══ */
+    .section-wrap{max-width:1080px;margin:0 auto;padding:100px 24px}
+    .section-label{font-size:.55rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+    .section-title{font-size:2.2rem;font-weight:900;letter-spacing:-.035em;line-height:1.1;margin-bottom:12px}
+    .section-desc{font-size:.95rem;font-weight:400;color:var(--gray);line-height:1.7;max-width:520px;margin-bottom:48px}
+
+    /* How */
+    .how{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .step-card{background:var(--bg);border-radius:14px;padding:32px 24px;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+    .step-card:hover{transform:translateY(-3px)}
+    .step-num{font-size:3rem;font-weight:900;color:var(--line);letter-spacing:-.04em;line-height:1;margin-bottom:12px}
+    .step-card h3{font-size:.95rem;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
+    .step-card p{font-size:.82rem;color:var(--gray);line-height:1.6}
+    .step-example{margin-top:14px;padding:8px 12px;background:var(--white);border-radius:8px;border-left:3px solid var(--green);font-size:.75rem;color:var(--black);font-weight:500}
+
+    /* Why */
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+    .compare{width:100%;border-collapse:collapse;margin-top:28px}
+    .compare th{text-align:left;font-size:.55rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gray);padding:10px 0;border-bottom:2px solid var(--line)}
+    .compare td{padding:12px 0;font-size:.8rem;border-bottom:1px solid var(--line);vertical-align:top}
+    .compare td:first-child{color:var(--gray);padding-right:12px;font-weight:500}
+    .y{color:var(--green-dark);font-weight:700}.n{color:#9CA3AF}
+    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .metric-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:24px 20px;text-align:center}
+    .metric-card-num{font-size:2.4rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:6px}
+    .metric-card-num.g{color:var(--green)}
+    .metric-card-label{font-size:.65rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;line-height:1.4}
+
+    /* Pricing */
+    .pricing-section{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:860px}
+    .price-card{background:var(--bg);border-radius:14px;padding:28px 24px;border:2px solid transparent;transition:border-color .3s,transform .3s;position:relative}
+    .price-card:hover{transform:translateY(-3px)}
+    .price-card.pop{border-color:var(--green);background:var(--green-bg)}
+    .price-card-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:.5rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--green);color:var(--white);padding:3px 14px;border-radius:20px;white-space:nowrap}
+    .price-name{font-weight:800;font-size:.9rem;margin-bottom:2px}
+    .price-tag{font-size:.72rem;color:var(--gray);margin-bottom:16px}
+    .price-amount{font-size:2.2rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:2px}
+    .price-period{font-size:.7rem;color:var(--gray);margin-bottom:20px}
+    .price-list{list-style:none;margin-bottom:24px}
+    .price-list li{font-size:.75rem;color:var(--gray);padding:5px 0;display:flex;align-items:center;gap:6px}
+    .price-list li::before{content:'✓';color:var(--green);font-weight:800;font-size:.7rem;flex-shrink:0}
+    .price-list li.off{opacity:.5}.price-list li.off::before{content:'—';color:var(--gray)}
+    .price-cta{display:block;width:100%;text-align:center;font-family:var(--font);font-weight:700;font-size:.78rem;padding:11px;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+    .pricing-footer{text-align:center;margin-top:28px;font-size:.82rem;color:var(--gray)}
+    .pricing-footer strong{color:var(--green-dark);font-weight:700}
+    .netflix-compare{max-width:400px;margin:48px auto 0;text-align:center;padding:24px;background:var(--bg);border-radius:14px}
+    .netflix-compare p{font-size:.85rem;color:var(--gray);line-height:1.6}
+    .netflix-compare .big{font-size:1.4rem;font-weight:900;color:var(--black);letter-spacing:-.03em;margin:8px 0}
+
+    /* Waitlist */
+    .waitlist{background:var(--black);color:var(--white);padding:100px 24px}
+    .waitlist-inner{max-width:560px;margin:0 auto;text-align:center}
+    .waitlist .section-label{color:var(--green)}.waitlist .section-title{color:var(--white);margin:0 auto 12px}
+    .waitlist-desc{font-size:.95rem;color:var(--gray-light);line-height:1.7;margin-bottom:32px}
+    .waitlist-counter{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;color:var(--gray-light);margin-bottom:20px}
+    .counter-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2.5s infinite}
+    .counter-num{font-weight:800;color:var(--green)}
+    .waitlist-form{display:flex;gap:8px;margin-bottom:16px}
+    .waitlist-form input{flex:1;font-family:var(--font);font-size:.88rem;font-weight:500;padding:14px 16px;border:2px solid #374151;border-radius:10px;background:#111827;color:var(--white);outline:none;transition:border-color .2s}
+    .waitlist-form input::placeholder{color:#6B7280;font-weight:400}
+    .waitlist-form input:focus{border-color:var(--green)}
+    .waitlist-legal{font-size:.65rem;color:#6B7280}
+    .form-success{display:none;padding:20px;animation:fadeUp .4s ease}
+    .form-success.show{display:block}
+    .form-success-icon{font-size:1.8rem;margin-bottom:8px}
+    .form-success-title{font-weight:800;font-size:1rem;margin-bottom:4px}
+    .form-success-sub{font-size:.82rem;opacity:.6}
+
+    /* Backed */
+    .backed{padding:56px 24px;text-align:center;border-bottom:1px solid var(--line)}
+    .backed-pre{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:16px}
+    .backed .metrik-logo{align-items:center;margin:0 auto}
+    .backed .metrik-logo-text{font-size:1.6rem}
+    .backed .metrik-logo-line{margin-top:8px}
+    .backed-tagline{font-size:.78rem;font-weight:300;color:var(--gray);font-style:italic;margin-top:10px}
+    .backed-link{display:inline-block;margin-top:10px;font-size:.72rem;font-weight:700;color:var(--green);text-decoration:none}
+    .backed-link:hover{color:var(--green-dark)}
+
+    /* Footer */
+    footer{background:var(--black);padding:32px 24px;color:#6B7280}
+    .footer-inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:.7rem}
+    .footer-links{display:flex;gap:20px}
+    .footer-links a{color:#6B7280;text-decoration:none;transition:color .2s}
+    .footer-links a:hover{color:var(--green)}
+
+    /* ═══ RESPONSIVE ═══ */
+    @media(min-width:769px){.nav-tag{display:block}}
+    @media(max-width:768px){
+      .hero{grid-template-columns:1fr;padding:120px 20px 60px;min-height:auto;gap:40px}
+      .hero-phone{order:-1}.phone{width:280px}.phone-chat{min-height:380px;max-height:380px}
+      .hero h1{font-size:2.4rem}.hero-content{text-align:center}
+      .hero-sub{margin:0 auto 28px}.hero-form{max-width:100%;flex-direction:column}
+      .hero-note{text-align:center}.hero-stats{justify-content:center;gap:24px;flex-wrap:wrap}
+      .section-wrap{padding:72px 20px}.section-title{font-size:1.8rem}
+      .steps{grid-template-columns:1fr;gap:16px}.why-grid{grid-template-columns:1fr;gap:40px}
+      .pricing-grid{grid-template-columns:1fr;max-width:360px;margin:0 auto}
+      .waitlist-form{flex-direction:column}
+      .footer-inner{flex-direction:column;gap:16px;text-align:center}
+      .footer-links{flex-direction:column;gap:6px}
+    }
+    @media(max-width:480px){
+      .hero h1{font-size:2rem}.hero-stats{flex-direction:column;gap:12px;text-align:center}
+      .metric-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <div class="mb-mark">
+          <span class="mb-mark-text"><span class="mb-mark-m">M</span><span class="mb-mark-sub">b</span></span>
+          <span class="mb-mark-line"></span>
+        </div>
+        <span class="nav-product-name">Bolsillo</span>
+      </a>
+      <div class="nav-right">
+        <span class="nav-tag">Junio 2026</span>
+        <button class="btn" onclick="goTo('waitlist')">Unirme a la lista</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-label">Lanzamiento Junio 2026</div>
+      <h1>Controla tu plata desde <span class="green">WhatsApp</span></h1>
+      <p class="hero-sub">Manda un mensaje con lo que gastaste. La IA lo categoriza en 3 segundos. Sin app, sin cuenta nueva, sin Excel.</p>
+      <form class="hero-form" id="heroForm" onsubmit="handleSubmit(event,'hero')">
+        <input type="email" placeholder="tu@email.com" required aria-label="Email">
+        <button type="submit" class="btn btn--green btn--large">Quiero acceso</button>
+      </form>
+      <div class="form-success" id="heroSuccess">
+        <div class="form-success-icon">🎉</div>
+        <div class="form-success-title">¡Estás en la lista!</div>
+        <div class="form-success-sub">Te avisaremos antes que a nadie.</div>
+      </div>
+      <p class="hero-note"><strong>Primeros 100:</strong> Plan Pro a $19,900/mes de por vida.</p>
+      <div class="hero-stats">
+        <div class="h-stat"><div class="h-stat-num">7.1M</div><div class="h-stat-label">Independientes</div></div>
+        <div class="h-stat"><div class="h-stat-num">85%</div><div class="h-stat-label">Sin registro</div></div>
+        <div class="h-stat"><div class="h-stat-num">97%</div><div class="h-stat-label">Usan WhatsApp</div></div>
+      </div>
+    </div>
+    <div class="hero-phone">
+      <div class="phone">
+        <div class="phone-header">
+          <div class="phone-avatar"><span class="av-m">M</span><span class="av-sub">b</span></div>
+          <div><div class="phone-name">Mi Bolsillo</div><div class="phone-status">en línea</div></div>
+        </div>
+        <div class="phone-chat" id="chat"><div class="chat-date">Hoy</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section class="how">
+    <div class="section-wrap">
+      <div class="section-label reveal">Cómo funciona</div>
+      <h2 class="section-title reveal">Tres pasos. Cero fricción.</h2>
+      <p class="section-desc reveal">Si sabes mandar un mensaje de WhatsApp, ya sabes usar Mi Bolsillo.</p>
+      <div class="steps">
+        <div class="step-card reveal reveal-d1">
+          <div class="step-num">01</div>
+          <h3>Manda un mensaje</h3>
+          <p>Escribe lo que gastaste o ganaste, como se lo dirías a un amigo. Texto o nota de voz.</p>
+          <div class="step-example">"Gasté 15mil en almuerzo"</div>
+        </div>
+        <div class="step-card reveal reveal-d2">
+          <div class="step-num">02</div>
+          <h3>La IA lo entiende</h3>
+          <p>En 3 segundos: monto, categoría y tipo. Tú solo confirmas.</p>
+          <div class="step-example">✓ $15,000 · Alimentación · Gasto</div>
+        </div>
+        <div class="step-card reveal reveal-d3">
+          <div class="step-num">03</div>
+          <h3>Pregunta cómo vas</h3>
+          <p>Resumen del mes, alertas si una categoría se dispara, balance en tiempo real.</p>
+          <div class="step-example">"¿Cómo voy este mes?"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section>
+    <div class="section-wrap">
+      <div class="why-grid">
+        <div>
+          <div class="section-label reveal">¿Por qué WhatsApp?</div>
+          <h2 class="section-title reveal">Las apps de finanzas no funcionan</h2>
+          <p class="section-desc reveal" style="margin-bottom:0">El 53% las abandonan en la primera semana. Descargar, crear cuenta, abrir cada vez... es demasiada fricción. Nosotros vamos donde ya estás.</p>
+          <table class="compare reveal">
+            <thead><tr><th></th><th>Mi Bolsillo</th><th>Apps</th></tr></thead>
+            <tbody>
+              <tr><td>Descargar app</td><td class="y">No</td><td class="n">Sí</td></tr>
+              <tr><td>Crear cuenta</td><td class="y">No</td><td class="n">Sí</td></tr>
+              <tr><td>Registrar gasto</td><td class="y">Un mensaje</td><td class="n">Abrir → buscar → llenar</td></tr>
+              <tr><td>Nota de voz</td><td class="y">Sí</td><td class="n">No</td></tr>
+              <tr><td>Categorización</td><td class="y">Automática IA</td><td class="n">Manual</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="metric-grid reveal">
+          <div class="metric-card"><div class="metric-card-num g">97%</div><div class="metric-card-label">Colombianos<br>usan WhatsApp</div></div>
+          <div class="metric-card"><div class="metric-card-num">53%</div><div class="metric-card-label">Abandonan apps<br>en 1 semana</div></div>
+          <div class="metric-card"><div class="metric-card-num g">3s</div><div class="metric-card-label">Tiempo de<br>registro</div></div>
+          <div class="metric-card"><div class="metric-card-num">0</div><div class="metric-card-label">Apps que<br>descargar</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="section-wrap">
+      <div class="section-label reveal">Planes</div>
+      <h2 class="section-title reveal">Menos que un Netflix</h2>
+      <p class="section-desc reveal">Empieza gratis. Sube cuando quieras.</p>
+      <div class="pricing-grid">
+        <div class="price-card reveal reveal-d1">
+          <div class="price-name">Free</div><div class="price-tag">Para probar</div>
+          <div class="price-amount">$0</div><div class="price-period">Para siempre</div>
+          <ul class="price-list">
+            <li>3 consultas al mes</li><li>Registro de gastos</li><li>Categorización IA</li>
+            <li class="off">Alertas inteligentes</li><li class="off">Historial completo</li><li class="off">Resúmenes semanales</li>
+          </ul>
+          <button class="price-cta btn--outline" onclick="goTo('waitlist')">Unirme a la lista</button>
+        </div>
+        <div class="price-card pop reveal reveal-d2">
+          <div class="price-card-badge">Más popular</div>
+          <div class="price-name">Pro</div><div class="price-tag">Para independientes</div>
+          <div class="price-amount">$24,900</div><div class="price-period">/mes</div>
+          <ul class="price-list">
+            <li>Consultas ilimitadas</li><li>Registro de gastos</li><li>Categorización IA</li>
+            <li>Alertas inteligentes</li><li>Historial completo</li><li>Resúmenes semanales</li>
+          </ul>
+          <button class="price-cta btn btn--green" onclick="goTo('waitlist')">Quiero acceso</button>
+        </div>
+        <div class="price-card reveal reveal-d3">
+          <div class="price-name">Pro Anual</div><div class="price-tag">2 meses gratis</div>
+          <div class="price-amount">$239,040</div><div class="price-period">/año ($19,920/mes)</div>
+          <ul class="price-list">
+            <li>Todo lo de Pro</li><li>Ahorra $59,760/año</li><li>Precio garantizado</li>
+            <li>Soporte prioritario</li>
+          </ul>
+          <button class="price-cta btn--outline" onclick="goTo('waitlist')">Unirme a la lista</button>
+        </div>
+      </div>
+      <p class="pricing-footer reveal"><strong>Precio madrugador:</strong> Los primeros 100 pagan $19,900/mes de por vida.</p>
+      <div class="netflix-compare reveal">
+        <p>El Plan Pro cuesta lo mismo que</p>
+        <div class="big">un Netflix al mes</div>
+        <p>¿Por qué pagas entretenimiento pero no claridad financiera?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section class="waitlist" id="waitlist">
+    <div class="waitlist-inner">
+      <div class="section-label reveal">Lista de espera</div>
+      <h2 class="section-title reveal">Sé de los primeros</h2>
+      <p class="waitlist-desc reveal">Lanzamos en junio 2026. Déjanos tu email y serás el primero en saber.</p>
+      <div class="waitlist-counter reveal">
+        <span class="counter-dot"></span>
+        <span><span class="counter-num" id="spots">73</span> cupos madrugadores disponibles</span>
+      </div>
+      <form class="waitlist-form reveal" id="waitlistForm" onsubmit="handleSubmit(event,'waitlist')">
+        <input type="email" placeholder="tu@email.com" required aria-label="Email para lista de espera">
+        <button type="submit" class="btn btn--green btn--large">Reservar mi cupo</button>
+      </form>
+      <div class="form-success" id="waitlistSuccess">
+        <div class="form-success-icon">🎉</div>
+        <div class="form-success-title" style="color:var(--white)">¡Cupo reservado!</div>
+        <div class="form-success-sub" style="color:var(--gray-light)">Te escribiremos cuando lancemos.</div>
+      </div>
+      <p class="waitlist-legal reveal">Sin spam. Solo te avisamos cuando esté listo.</p>
+    </div>
+  </section>
+
+  <!-- BACKED BY -->
+  <section class="backed">
+    <div class="backed-pre">Un producto</div>
+    <div class="metrik-logo">
+      <span class="metrik-logo-text">M<span style="text-transform:lowercase">é</span>TRIK</span>
+      <span class="metrik-logo-line"></span>
+    </div>
+    <div class="backed-tagline">De caos a claridad</div>
+    <a href="https://www.metrik.com.co" target="_blank" class="backed-link">www.metrik.com.co →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>© 2026 MéTRIK S.A.S. Todos los derechos reservados.</div>
+      <div class="footer-links">
+        <a href="mailto:mauricio.moreno@metrik.com.co">mauricio.moreno@metrik.com.co</a>
+        <a href="https://wa.me/573159509103" target="_blank">+57 315 950 9103</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const navEl=document.getElementById('nav');
+    window.addEventListener('scroll',()=>{navEl.classList.toggle('scrolled',window.scrollY>10)});
+    function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+    const io=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    const messages=[
+      // ── SCENE 1: Onboarding (Fase A completa)
+      {type:'user',text:'Hola',time:'9:01 a.m.',delay:200},
+      {type:'typing',delay:530},
+      {type:'bot',text:'¡Hola! 👋 Soy <strong>Tu Bolsillo</strong>.<br><br>Voy a ayudarte a saber para dónde va tu plata. Sin apps, sin Excel — todo por aquí.<br><br>Primero: <strong>¿cómo te llamas?</strong>',time:'9:01 a.m.',delay:1200},
+      {type:'user',text:'Mauricio',time:'9:01 a.m.',delay:2130},
+      {type:'typing',delay:2530},
+      {type:'bot',text:'¡Mucho gusto, Mauricio! 🎯<br><br><strong>¿Cuánto ganas al mes?</strong><br><em style="font-size:.65rem;color:#888">Puede ser aprox, ej: "4 millones"</em>',time:'9:01 a.m.',delay:3330},
+      {type:'user',text:'4.2 millones',time:'9:02 a.m.',delay:4400},
+      {type:'typing',delay:4800},
+      {type:'bot',text:'Último dato: <strong>¿cuánto pagas de arriendo?</strong><br><em style="font-size:.65rem;color:#888">Si no pagas, escribe "0"</em>',time:'9:02 a.m.',delay:5470},
+      {type:'user',text:'1.5M',time:'9:02 a.m.',delay:6270},
+      {type:'typing',delay:6600},
+      {type:'bot',text:'✅ <strong>¡Listo Mauricio!</strong><br><br>Ya puedes registrar gastos. Solo mándame un mensaje con lo que gastaste. Así de simple 👇',time:'9:02 a.m.',delay:7330},
+
+      // ── SCENE 2: Primer gasto (texto)
+      {type:'scene',text:'10 min después',delay:8330},
+      {type:'user',text:'Gasté 15mil en almuerzo',time:'9:12 a.m.',delay:8930},
+      {type:'typing',delay:9330},
+      {type:'bot',text:'✅ Registrado<br><br>💰 <strong>$15,000</strong><br>📁 Alimentación<br>📤 Gasto<br><br><span class="msg-badge">Automático · 3 seg</span>',time:'9:12 a.m.',delay:10130},
+
+      // ── SCENE 3: Nota de voz
+      {type:'user',text:'<div class="msg-voice">🎤 <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span><span></span></div> <span style="font-size:.6rem;color:#888">0:03</span></div>',time:'9:15 a.m.',delay:11200},
+      {type:'typing',delay:11670},
+      {type:'bot',text:'🎙️ Escuché: <em>"Pagué cuarenta y cinco mil del uber"</em><br><br>✅ <strong>$45,000</strong> · Transporte · Gasto<br><span class="msg-badge">Voz → texto → registro</span>',time:'9:15 a.m.',delay:12530},
+
+      // ── SCENE 4: Balance
+      {type:'scene',text:'Esa noche',delay:13600},
+      {type:'user',text:'¿Cómo voy este mes?',time:'8:45 p.m.',delay:14270},
+      {type:'typing',delay:14670},
+      {type:'bot',text:'📊 <strong>Febrero 2026</strong><div class="msg-summary">📥 Ingresos: <strong>$4,200,000</strong><br>📤 Gastos: <strong>$2,850,000</strong><br>💚 Balance: <strong>+$1,350,000</strong><br><br>🔴 Alimentación: $380,000 (13.5%)<br>🟡 Transporte: $245,000 (8.7%)<br>🟢 Servicios: $180,000 (6.4%)</div>',time:'8:45 p.m.',delay:15600},
+
+      // ── SCENE 5: Alerta inteligente (proactiva)
+      {type:'scene',text:'3 días después',delay:17000},
+      {type:'bot',text:'📢 <strong>Alerta Restaurantes</strong><br><br>Ya llevas <strong>$165,000</strong> de $200,000 este mes (82%). Te quedan 8 días.<br><br>💡 <em>¿Quieres ajustar el presupuesto? Escribe "configurar"</em>',time:'11:30 a.m.',delay:17870},
+      {type:'user',text:'Está bien así, gracias 👍',time:'11:32 a.m.',delay:19000},
+      {type:'typing',delay:19330},
+      {type:'bot',text:'👌 Perfecto. Te aviso si lo pasas. ¡Buen control Mauricio! 💪',time:'11:32 a.m.',delay:20000},
+    ];
+    const chatEl=document.getElementById('chat');let mi=0;
+    function nextMsg(){if(mi>=messages.length)return;const m=messages[mi];setTimeout(()=>{const t=chatEl.querySelector('.typing');if(t)t.remove();if(m.type==='typing'){const d=document.createElement('div');d.className='typing';d.innerHTML='<span></span><span></span><span></span>';chatEl.appendChild(d)}else if(m.type==='scene'){const d=document.createElement('div');d.className='scene-break';d.textContent=m.text;d.style.opacity='0';chatEl.appendChild(d);requestAnimationFrame(()=>{d.style.transition='opacity .4s';d.style.opacity='1'})}else{const d=document.createElement('div');d.className=`msg msg-${m.type}`;d.innerHTML=`<div class="msg-bubble">${m.text}</div><div class="msg-time">${m.time}</div>`;d.style.opacity='0';d.style.transform='translateY(8px)';chatEl.appendChild(d);requestAnimationFrame(()=>{d.style.transition='opacity .3s,transform .3s';d.style.opacity='1';d.style.transform='translateY(0)'})}chatEl.scrollTop=chatEl.scrollHeight;mi++;nextMsg()},m.delay)}
+    const phoneIO=new IntersectionObserver(e=>{if(e[0].isIntersecting){setTimeout(nextMsg,300);phoneIO.disconnect()}},{threshold:.25});
+    phoneIO.observe(document.querySelector('.phone'));
+
+    function handleSubmit(e,id){e.preventDefault();const form=e.target;const email=form.querySelector('input').value;console.log('Waitlist:',email);form.style.display='none';document.getElementById(id+'Success').classList.add('show');const c=document.getElementById('spots');let n=parseInt(c.textContent);if(n>1)c.textContent=n-1}
+  </script>
+</body>
+</html>
