@@ -73,7 +73,7 @@
     .btn--outline:hover{border-color:var(--black);background:transparent}
 
     /* ═══ HERO ═══ */
-    .hero{max-width:1080px;margin:0 auto;padding:130px 24px 80px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;min-height:100vh}
+    .hero{max-width:1120px;margin:0 auto;padding:130px 24px 80px;display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;align-items:center;min-height:100vh}
     .hero-content{animation:fadeUp .7s cubic-bezier(.16,1,.3,1) forwards}
     .hero-label{font-size:.72rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green-dark);margin-bottom:20px;display:flex;align-items:center;gap:8px}
     .hero-label::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2.5s infinite}
@@ -98,15 +98,19 @@
     .h-stat-num{font-size:1.8rem;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:2px}
     .h-stat-label{font-size:.72rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--gray)}
 
-    /* Phone */
-    .hero-phone{display:flex;justify-content:center;animation:fadeUp .7s .15s cubic-bezier(.16,1,.3,1) both}
-    .phone{width:300px;border-radius:28px;overflow:hidden;background:#E5DDD5;box-shadow:0 2px 4px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08),0 24px 48px rgba(0,0,0,.06);border:6px solid var(--black)}
+    /* Phone — iPhone 17 Pro Max frame */
+    .hero-phone{display:flex;justify-content:center;align-items:center;animation:fadeUp .7s .15s cubic-bezier(.16,1,.3,1) both;position:relative}
+    .hero-phone::before{content:'';position:absolute;width:380px;height:380px;background:radial-gradient(circle,rgba(16,185,129,.12) 0%,rgba(16,185,129,.04) 40%,transparent 70%);border-radius:50%;z-index:0;pointer-events:none;filter:blur(20px)}
+    .phone{width:360px;border-radius:44px;overflow:hidden;background:#E5DDD5;box-shadow:0 2px 8px rgba(0,0,0,.06),0 12px 32px rgba(0,0,0,.12),0 32px 64px rgba(0,0,0,.10),inset 0 0 0 1px rgba(255,255,255,.08);border:3px solid #2C2C2E;position:relative;z-index:1}
+    .phone-notch{background:#000;padding:10px 0 0;display:flex;justify-content:center}
+    .phone-dynamic-island{width:120px;height:34px;background:#1A1A1A;border-radius:20px;position:relative;box-shadow:inset 0 0 2px rgba(0,0,0,.6)}
+    .phone-dynamic-island::before{content:'';position:absolute;right:26px;top:50%;transform:translateY(-50%);width:10px;height:10px;background:radial-gradient(circle,#1C1C1E 40%,#0D0D0D 100%);border-radius:50%;box-shadow:inset 0 0 1px rgba(255,255,255,.06)}
     .phone-header{background:#075E54;padding:10px 14px;display:flex;align-items:center;gap:10px}
-    .phone-avatar{width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:var(--white);font-weight:800;font-size:.6rem}
-    .phone-avatar .av-m{font-size:.7rem}.phone-avatar .av-sub{font-size:.4rem;position:relative;bottom:-.1em}
-    .phone-name{color:var(--white);font-size:.78rem;font-weight:600}
-    .phone-status{color:rgba(255,255,255,.6);font-size:.55rem}
-    .phone-chat{padding:12px 10px;min-height:440px;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth}
+    .phone-avatar{width:34px;height:34px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:var(--white);font-weight:800;font-size:.65rem}
+    .phone-avatar .av-m{font-size:.75rem}.phone-avatar .av-sub{font-size:.42rem;position:relative;bottom:-.1em}
+    .phone-name{color:var(--white);font-size:.82rem;font-weight:600}
+    .phone-status{color:rgba(255,255,255,.6);font-size:.58rem}
+    .phone-chat{padding:12px 10px;min-height:520px;max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth}
     .phone-chat::-webkit-scrollbar{width:0;display:none}.phone-chat{-ms-overflow-style:none;scrollbar-width:none}
     .scene-break{text-align:center;font-size:.5rem;color:#8696A0;background:rgba(255,255,255,.6);padding:2px 10px;border-radius:6px;align-self:center;margin:8px 0 4px}
     .msg-voice{display:flex;align-items:center;gap:6px;padding:4px 0}
@@ -121,8 +125,8 @@
     @keyframes voiceWave{to{height:4px}}
     .chat-date{text-align:center;font-size:.55rem;color:#8696A0;background:rgba(255,255,255,.6);padding:2px 10px;border-radius:6px;align-self:center;margin-bottom:4px}
     .msg{max-width:84%;animation:slideIn .35s cubic-bezier(.16,1,.3,1) both}
-    .msg-bubble{padding:6px 10px;border-radius:8px;font-size:.72rem;line-height:1.5}
-    .msg-time{font-size:.48rem;color:#999;text-align:right;margin-top:1px}
+    .msg-bubble{padding:7px 11px;border-radius:8px;font-size:.78rem;line-height:1.5}
+    .msg-time{font-size:.52rem;color:#999;text-align:right;margin-top:2px}
     .msg-user{align-self:flex-end}.msg-user .msg-bubble{background:var(--white);border-bottom-right-radius:2px;box-shadow:0 1px 1px rgba(0,0,0,.05)}
     .msg-bot{align-self:flex-start}.msg-bot .msg-bubble{background:#DCF8C6;border-bottom-left-radius:2px;box-shadow:0 1px 1px rgba(0,0,0,.05)}
     .msg-badge{display:inline-block;font-size:.55rem;font-weight:700;background:rgba(16,185,129,.12);color:var(--green-dark);padding:1px 6px;border-radius:4px;margin-top:4px}
@@ -222,7 +226,7 @@
     @media(min-width:769px){.nav-tag{display:block}}
     @media(max-width:768px){
       .hero{grid-template-columns:1fr;padding:120px 20px 60px;min-height:auto;gap:40px}
-      .hero-phone{order:-1}.phone{width:280px}.phone-chat{min-height:380px;max-height:380px}
+      .hero-phone{order:-1}.hero-phone::before{width:320px;height:320px}.phone{width:320px;border-radius:40px}.phone-chat{min-height:440px;max-height:440px}
       .hero h1{font-size:2.4rem}.hero-content{text-align:center}
       .hero-sub{margin:0 auto 28px}.hero-form{max-width:100%;flex-direction:column}
       .hero-note{text-align:center}.hero-stats{justify-content:center;gap:24px;flex-wrap:wrap}
@@ -235,6 +239,8 @@
     }
     @media(max-width:480px){
       .hero h1{font-size:2rem}.hero-stats{flex-direction:column;gap:12px;text-align:center}
+      .phone{width:280px;border-radius:36px}.phone-chat{min-height:400px;max-height:400px}
+      .hero-phone::before{width:280px;height:280px}
       .metric-grid{grid-template-columns:1fr}
     }
   </style>
@@ -274,13 +280,13 @@
         <div class="form-success-sub">Te avisaremos antes que a nadie.</div>
       </div>
       <div class="hero-offer" id="heroOffer">
-        <div class="hero-offer-title">Primeros 1,000: Plan Pro a <span class="green">$19,900/mes</span> de por vida</div>
+        <div class="hero-offer-title">Primeros 100: Plan Pro a <span class="green">$19,900/mes</span> de por vida</div>
         <div class="hero-offer-sub">Precio garantizado para los madrugadores. Despues sube a $24,900/mes.</div>
         <div class="hero-offer-counter">
           <div class="hero-offer-bar"><div class="hero-offer-fill" id="offerFill"></div></div>
           <div class="hero-offer-status">
-            <span class="hero-offer-taken"><span id="offerTaken">0</span> de 1,000 cupos tomados</span>
-            <span class="hero-offer-remaining">Quedan <span id="offerLeft">1000</span></span>
+            <span class="hero-offer-taken"><span id="offerTaken">0</span> de 100 cupos tomados</span>
+            <span class="hero-offer-remaining">Quedan <span id="offerLeft">100</span></span>
           </div>
         </div>
       </div>
@@ -292,6 +298,7 @@
     </div>
     <div class="hero-phone">
       <div class="phone">
+        <div class="phone-notch"><div class="phone-dynamic-island"></div></div>
         <div class="phone-header">
           <div class="phone-avatar"><span class="av-m">M</span><span class="av-sub">b</span></div>
           <div><div class="phone-name">Mi Bolsillo</div><div class="phone-status">en línea</div></div>
@@ -395,7 +402,7 @@
           <button class="price-cta btn--outline" onclick="goTo('waitlist')">Unirme a la lista</button>
         </div>
       </div>
-      <p class="pricing-footer reveal"><strong>Precio madrugador:</strong> Los primeros 1,000 pagan $19,900/mes de por vida.</p>
+      <p class="pricing-footer reveal"><strong>Precio madrugador:</strong> Los primeros 100 pagan $19,900/mes de por vida.</p>
       <div class="netflix-compare reveal">
         <p>El Plan Pro cuesta lo mismo que</p>
         <div class="big">un Netflix al mes</div>
@@ -412,7 +419,7 @@
       <p class="waitlist-desc reveal">Lanzamos en junio 2026. Déjanos tu email y serás el primero en saber.</p>
       <div class="waitlist-counter reveal">
         <span class="counter-dot"></span>
-        <span><span class="counter-num" id="spots">63</span> cupos madrugadores disponibles</span>
+        <span><span class="counter-num" id="spots">13</span> cupos madrugadores disponibles</span>
       </div>
       <form class="waitlist-form reveal" id="waitlistForm" onsubmit="handleSubmit(event,'waitlist')">
         <input type="email" placeholder="tu@email.com" required aria-label="Email para lista de espera">
@@ -502,7 +509,7 @@
 
     // ── Counter animation — cupos madrugadores ──
     (function(){
-      const TARGET=937;const TOTAL=1000;
+      const TARGET=87;const TOTAL=100;
       const takenEl=document.getElementById('offerTaken');
       const leftEl=document.getElementById('offerLeft');
       const fillEl=document.getElementById('offerFill');
