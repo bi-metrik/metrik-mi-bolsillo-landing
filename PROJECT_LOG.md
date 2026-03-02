@@ -7,8 +7,9 @@
 | **Cliente** | Interno — MéTRIK Personas |
 | **Tipo** | Página Web (Landing pre-lanzamiento) |
 | **Inicio** | 01/03/2026 |
-| **URL Producción** | https://metrikbolsillo.co (pendiente deploy) |
-| **Repositorio** | https://github.com/metrik360/metrik-mi-bolsillo-landing (pendiente creación) |
+| **URL Producción** | https://metrikbolsillo.co (DNS pendiente: A → 76.76.21.21) |
+| **URL Vercel** | https://metrik-mi-bolsillo-landing.vercel.app |
+| **Repositorio** | https://github.com/bi-metrik/metrik-mi-bolsillo-landing |
 
 ---
 
@@ -17,8 +18,8 @@
 | Campo | Valor |
 |-------|-------|
 | **Sprint** | 1 |
-| **Fase** | Discovery |
-| **Status** | En curso |
+| **Fase** | Deliver |
+| **Status** | Esperando QA |
 
 ---
 
@@ -30,8 +31,8 @@
 |-------|-------|
 | Fechas | 01/03/2026 → en curso |
 | Entregables | Landing refinada, waitlist backend, favicon, OG image, deploy Vercel |
-| URL | pendiente |
-| QA | pendiente |
+| URL | https://metrik-mi-bolsillo-landing.vercel.app |
+| QA | Esperando |
 
 **Notas:** Proyecto inicia con HTML v3 funcional entregado por Mauricio. Dirección visual con Ren. Backend waitlist en Supabase nuevo.
 
@@ -53,7 +54,9 @@
 | Fecha | Decisión | Razón |
 |-------|----------|-------|
 | 01/03 | Supabase nuevo (no reusar metrik-one) | Separar productos — Mi Bolsillo es B2C independiente |
-| 01/03 | Deploy en Vercel (no GitHub Pages) | Necesita Supabase Edge Functions para waitlist |
+| 01/03 | Deploy en Vercel (no GitHub Pages) | Dominio custom + static hosting profesional |
+| 01/03 | Repo en bi-metrik (no metrik360) | Permisos insuficientes en org metrik360, transferir después |
+| 01/03 | Waitlist via REST API directo (no Edge Functions) | Landing es HTML puro, fetch() al REST endpoint de Supabase |
 | 01/03 | Analytics fuera de Sprint 1 | Foco en tener la landing live primero |
 
 ---
