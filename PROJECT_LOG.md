@@ -5,9 +5,9 @@
 | Campo | Valor |
 |-------|-------|
 | **Cliente** | Interno — MéTRIK Personas |
-| **Tipo** | Página Web (Landing pre-lanzamiento) |
+| **Tipo** | Página Web (Landing de conversión directa) |
 | **Inicio** | 01/03/2026 |
-| **URL Producción** | https://metrikbolsillo.co (DNS pendiente: A → 76.76.21.21) |
+| **URL Producción** | https://metrikbolsillo.co (live) |
 | **URL Vercel** | https://metrik-mi-bolsillo-landing.vercel.app |
 | **Repositorio** | https://github.com/bi-metrik/metrik-mi-bolsillo-landing |
 
@@ -17,13 +17,25 @@
 
 | Campo | Valor |
 |-------|-------|
-| **Sprint** | 1 |
+| **Sprint** | 2 |
 | **Fase** | Deliver |
-| **Status** | Esperando QA |
+| **Status** | Live en metrikbolsillo.co |
 
 ---
 
 ## Historial de Sprints
+
+### Sprint 2: Pivote a conversión directa (03/06/2026)
+
+| Campo | Valor |
+|-------|-------|
+| Entregables | Eliminada la waitlist (formularios, contador, backend Supabase con placeholders que nunca capturó); precio único Personal $20.000/mes (sin earlybird ni Pro Anual); CTA único → chat WhatsApp del bot (wa.me/573186953502) que registra y vincula a la pasarela; tagline "Claridad para decidir" |
+| Deploy | Auto vía Git push → metrikbolsillo.co (live y verificado) |
+| Commit | `0d48c41` |
+
+**Notas:** Cambio de modelo de "captar lista de espera" a "conversión directa al producto". El registro y pago ocurren en el chat (bot Mi Bolsillo), no en la landing. Alineado con la focalización 100% personal del producto.
+
+**Pendientes técnicos:** (1) `.vercel/project.json` tiene orgId obsoleto → el deploy CLI falla; los deploys funcionan vía Git push. Re-linkear con `vercel link` para habilitar CLI. (2) Alias `metrik-mi-bolsillo-landing.vercel.app` quedó en versión vieja (el dominio real metrikbolsillo.co sí está actualizado). (3) OG image referencia `og-image.png` pero solo existe `.svg` → sin preview al compartir. (4) Rutas /terminos y /politica-de-datos en el dominio (hoy el rewrite manda todo a index.html).
 
 ### Sprint 1: Refinar + Waitlist + Deploy
 
