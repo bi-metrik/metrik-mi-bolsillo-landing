@@ -258,8 +258,8 @@
         <span class="nav-product-name">Bolsillo</span>
       </a>
       <div class="nav-right">
-        <span class="nav-tag">Junio 2026</span>
-        <button class="btn" onclick="goTo('waitlist')">Unirme a la lista</button>
+        <span class="nav-tag">Disponible ahora</span>
+        <button class="btn" onclick="startChat()">Empezar</button>
       </div>
     </div>
   </nav>
@@ -267,29 +267,13 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <div class="hero-label">Lanzamiento Junio 2026</div>
+      <div class="hero-label">Disponible ahora</div>
       <h1>Controla tu plata desde <span class="green">WhatsApp</span></h1>
       <p class="hero-sub">Manda un mensaje con lo que gastaste. La IA lo categoriza en 3 segundos. Sin app, sin cuenta nueva, sin Excel.</p>
-      <form class="hero-form" id="heroForm" onsubmit="handleSubmit(event,'hero')">
-        <input type="email" placeholder="tu@email.com" required aria-label="Email">
-        <button type="submit" class="btn btn--green btn--large">Quiero acceso</button>
-      </form>
-      <div class="form-success" id="heroSuccess">
-        <div class="form-success-icon">🎉</div>
-        <div class="form-success-title">¡Estás en la lista!</div>
-        <div class="form-success-sub">Te avisaremos antes que a nadie.</div>
+      <div class="hero-form">
+        <button class="btn btn--green btn--large" onclick="startChat()">Empezar gratis en WhatsApp</button>
       </div>
-      <div class="hero-offer" id="heroOffer">
-        <div class="hero-offer-title">Primeros 100: Plan Pro a <span class="green">$19,900/mes</span> de por vida</div>
-        <div class="hero-offer-sub">Precio garantizado para los madrugadores. Despues sube a $24,900/mes.</div>
-        <div class="hero-offer-counter">
-          <div class="hero-offer-bar"><div class="hero-offer-fill" id="offerFill"></div></div>
-          <div class="hero-offer-status">
-            <span class="hero-offer-taken"><span id="offerTaken">0</span> de 100 cupos tomados</span>
-            <span class="hero-offer-remaining">Quedan <span id="offerLeft">100</span></span>
-          </div>
-        </div>
-      </div>
+      <p class="hero-sub" style="margin-bottom:12px;font-size:.92rem">Pruébalo gratis. Cuando quieras todo, activas Personal por <strong style="color:var(--black)">$20.000/mes</strong> desde el mismo chat.</p>
       <div class="hero-stats">
         <div class="h-stat"><div class="h-stat-num">7.1M</div><div class="h-stat-label">Independientes</div></div>
         <div class="h-stat"><div class="h-stat-num">85%</div><div class="h-stat-label">Sin registro</div></div>
@@ -370,9 +354,9 @@
   <section class="pricing-section" id="pricing">
     <div class="section-wrap">
       <div class="section-label reveal">Planes</div>
-      <h2 class="section-title reveal">Menos que un Netflix</h2>
-      <p class="section-desc reveal">Empieza gratis. Sube cuando quieras.</p>
-      <div class="pricing-grid">
+      <h2 class="section-title reveal">Un precio. Sin letra chica.</h2>
+      <p class="section-desc reveal">Empieza gratis. Cuando quieras todo, son $20.000 al mes.</p>
+      <div class="pricing-grid" style="grid-template-columns:repeat(2,1fr);max-width:600px">
         <div class="price-card reveal reveal-d1">
           <div class="price-name">Free</div><div class="price-tag">Para probar</div>
           <div class="price-amount">$0</div><div class="price-period">Para siempre</div>
@@ -380,57 +364,35 @@
             <li>3 consultas al mes</li><li>Registro de gastos</li><li>Categorización IA</li>
             <li class="off">Alertas inteligentes</li><li class="off">Historial completo</li><li class="off">Resúmenes semanales</li>
           </ul>
-          <button class="price-cta btn--outline" onclick="goTo('waitlist')">Unirme a la lista</button>
+          <button class="price-cta btn--outline" onclick="startChat()">Empezar gratis</button>
         </div>
         <div class="price-card pop reveal reveal-d2">
-          <div class="price-card-badge">Más popular</div>
-          <div class="price-name">Pro</div><div class="price-tag">Para independientes</div>
-          <div class="price-amount">$24,900</div><div class="price-period">/mes</div>
+          <div class="price-card-badge">Recomendado</div>
+          <div class="price-name">Personal</div><div class="price-tag">Para independientes</div>
+          <div class="price-amount">$20.000</div><div class="price-period">/mes</div>
           <ul class="price-list">
-            <li>Consultas ilimitadas</li><li>Registro de gastos</li><li>Categorización IA</li>
+            <li>Consultas ilimitadas</li><li>Registro de gastos y notas de voz</li><li>Categorización IA</li>
             <li>Alertas inteligentes</li><li>Historial completo</li><li>Resúmenes semanales</li>
           </ul>
-          <button class="price-cta btn btn--green" onclick="goTo('waitlist')">Quiero acceso</button>
-        </div>
-        <div class="price-card reveal reveal-d3">
-          <div class="price-name">Pro Anual</div><div class="price-tag">2 meses gratis</div>
-          <div class="price-amount">$239,040</div><div class="price-period">/año ($19,920/mes)</div>
-          <ul class="price-list">
-            <li>Todo lo de Pro</li><li>Ahorra $59,760/año</li><li>Precio garantizado</li>
-            <li>Soporte prioritario</li>
-          </ul>
-          <button class="price-cta btn--outline" onclick="goTo('waitlist')">Unirme a la lista</button>
+          <button class="price-cta btn btn--green" onclick="startChat()">Empezar ahora</button>
         </div>
       </div>
-      <p class="pricing-footer reveal"><strong>Precio madrugador:</strong> Los primeros 100 pagan $19,900/mes de por vida.</p>
       <div class="netflix-compare reveal">
-        <p>El Plan Pro cuesta lo mismo que</p>
+        <p>El plan Personal cuesta lo mismo que</p>
         <div class="big">un Netflix al mes</div>
         <p>¿Por qué pagas entretenimiento pero no claridad financiera?</p>
       </div>
     </div>
   </section>
 
-  <!-- WAITLIST -->
-  <section class="waitlist" id="waitlist">
+  <!-- CTA FINAL -->
+  <section class="waitlist" id="empezar">
     <div class="waitlist-inner">
-      <div class="section-label reveal">Lista de espera</div>
-      <h2 class="section-title reveal">Sé de los primeros</h2>
-      <p class="waitlist-desc reveal">Lanzamos en junio 2026. Déjanos tu email y serás el primero en saber.</p>
-      <div class="waitlist-counter reveal">
-        <span class="counter-dot"></span>
-        <span><span class="counter-num" id="spots">100</span> cupos madrugadores disponibles</span>
-      </div>
-      <form class="waitlist-form reveal" id="waitlistForm" onsubmit="handleSubmit(event,'waitlist')">
-        <input type="email" placeholder="tu@email.com" required aria-label="Email para lista de espera">
-        <button type="submit" class="btn btn--green btn--large">Reservar mi cupo</button>
-      </form>
-      <div class="form-success" id="waitlistSuccess">
-        <div class="form-success-icon">🎉</div>
-        <div class="form-success-title" style="color:var(--white)">¡Cupo reservado!</div>
-        <div class="form-success-sub" style="color:var(--gray-light)">Te escribiremos cuando lancemos.</div>
-      </div>
-      <p class="waitlist-legal reveal">Sin spam. Solo te avisamos cuando esté listo.</p>
+      <div class="section-label reveal">Empieza hoy</div>
+      <h2 class="section-title reveal">Tu primer registro, en 30 segundos</h2>
+      <p class="waitlist-desc reveal">Abre el chat, cuéntale tu primer gasto y listo. Pruébalo gratis; cuando quieras todo, activas Personal por $20.000/mes desde el mismo chat.</p>
+      <button class="btn btn--green btn--large reveal" onclick="startChat()">Abrir el chat de Mi Bolsillo</button>
+      <p class="waitlist-legal reveal" style="margin-top:16px">Al continuar aceptas los términos y la política de tratamiento de datos.</p>
     </div>
   </section>
 
@@ -441,7 +403,7 @@
       <span class="metrik-logo-text">M<span style="text-transform:lowercase">é</span>TRIK</span>
       <span class="metrik-logo-line"></span>
     </div>
-    <div class="backed-tagline">De caos a claridad</div>
+    <div class="backed-tagline">Claridad para decidir</div>
     <a href="https://www.metrik.com.co" target="_blank" class="backed-link">www.metrik.com.co →</a>
   </section>
 
@@ -507,67 +469,9 @@
     const phoneIO=new IntersectionObserver(e=>{if(e[0].isIntersecting){setTimeout(nextMsg,300);phoneIO.disconnect()}},{threshold:.25});
     phoneIO.observe(document.querySelector('.phone'));
 
-    // ── Counter animation — cupos madrugadores ──
-    // Progresión automática: 0 cupos el 1 mar → 100 cupos el 31 mar (30 días)
-    (function(){
-      const TOTAL=100;
-      const START=new Date('2026-03-01T00:00:00-05:00');// COT
-      const DAYS=30;
-      const elapsed=Math.max(0,(Date.now()-START.getTime())/(864e5));
-      const TARGET=Math.min(TOTAL,Math.round((elapsed/DAYS)*TOTAL));
-      const takenEl=document.getElementById('offerTaken');
-      const leftEl=document.getElementById('offerLeft');
-      const fillEl=document.getElementById('offerFill');
-      const spotsEl=document.getElementById('spots');
-      let animated=false;
-      function easeOut(t){return 1-Math.pow(1-t,3)}
-      function animateCounter(){
-        if(animated)return;animated=true;
-        const duration=2200;const start=performance.now();
-        function tick(now){
-          const elapsed=now-start;
-          const progress=Math.min(elapsed/duration,1);
-          const eased=easeOut(progress);
-          const current=Math.round(eased*TARGET);
-          const remaining=TOTAL-current;
-          takenEl.textContent=current.toLocaleString('es-CO');
-          leftEl.textContent=remaining.toLocaleString('es-CO');
-          fillEl.style.width=(current/TOTAL*100)+'%';
-          spotsEl.textContent=remaining;
-          if(progress<1)requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }
-      const offerIO=new IntersectionObserver(e=>{
-        if(e[0].isIntersecting){animateCounter();offerIO.disconnect()}
-      },{threshold:.3});
-      offerIO.observe(document.getElementById('heroOffer'));
-    })();
-
-    // ── Supabase config (reemplazar con credenciales del proyecto nuevo) ──
-    const SUPABASE_URL='__SUPABASE_URL__';
-    const SUPABASE_ANON_KEY='__SUPABASE_ANON_KEY__';
-
-    async function handleSubmit(e,id){
-      e.preventDefault();
-      const form=e.target;
-      const btn=form.querySelector('button[type="submit"]');
-      const email=form.querySelector('input').value;
-      btn.disabled=true;btn.textContent='Enviando...';
-      try{
-        if(!SUPABASE_URL.startsWith('http')){throw new Error('config')}
-        const res=await fetch(`${SUPABASE_URL}/rest/v1/waitlist`,{
-          method:'POST',
-          headers:{'apikey':SUPABASE_ANON_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
-          body:JSON.stringify({email,source:id})
-        });
-        if(!res.ok&&res.status!==409)throw new Error(res.statusText);
-      }catch(err){console.log('Waitlist fallback:',email,id)}
-      form.style.display='none';
-      document.getElementById(id+'Success').classList.add('show');
-      const c=document.getElementById('spots');
-      let n=parseInt(c.textContent);if(n>1)c.textContent=n-1;
-    }
+    // ── CTA: abrir el chat de WhatsApp del bot Mi Bolsillo ──
+    const WA_LINK='https://wa.me/573186953502?text='+encodeURIComponent('Hola! Quiero empezar con Mi Bolsillo 💚');
+    function startChat(){window.open(WA_LINK,'_blank','noopener')}
   </script>
 </body>
 </html>
